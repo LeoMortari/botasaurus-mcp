@@ -1,0 +1,28 @@
+services:
+  scraper:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: botasaurus-mcp
+    ipc: host
+    restart: unless-stopped
+    deploy:
+      resources:
+        limits:
+          memory: 2G
+          cpus: "1.5"
+        reservations:
+          memory: 512M
+    environment:
+      - PYTHONUNBUFFERED=1
+      - TZ=America/Sao_Paulo
+      - PORT=5846
+      - DISPLAY=:99
+      - ENABLE_VNC=${ENABLE_VNC:-false}
+    ports:
+      # API
+      - "5846:5846"
+      # MCP
+      - "1405:1405"
+      # noVNC (when ENABLE_VNC=true)
+      - "6080:6080"
