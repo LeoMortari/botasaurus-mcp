@@ -58,8 +58,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     feh \
     && rm -rf /var/lib/apt/lists/*
 
-# Chromium do Debian (suporta ARM/arm64). Google Chrome não publica build ARM.
-# Symlinks p/ Botasaurus encontrar via nomes esperados (google-chrome*).
+# Debian Chromium (supports ARM/arm64). Google Chrome doesn't publish ARM builds.
+# Symlinks so Botasaurus finds it via expected names (google-chrome*).
 RUN apt-get update \
     && apt-get install -y --no-install-recommends chromium chromium-driver \
     && ln -sf /usr/bin/chromium /usr/bin/google-chrome \
@@ -69,9 +69,13 @@ RUN apt-get update \
 WORKDIR /app
 
 COPY requirements.txt /app/requirements.txt
+
 RUN pip install --no-cache-dir -r /app/requirements.txt
 
+RUN python3 -c "from botasaurus.request import request"
+
 COPY entrypoint.sh /app/entrypoint.sh
+
 RUN chmod +x /app/entrypoint.sh
 
 COPY app.py /app/app.py

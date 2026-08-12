@@ -51,6 +51,20 @@ npx @modelcontextprotocol/inspector
 
 ## 🎯 Available Tools
 
+44 tools total. All accept an optional `session_id` (default `"default"`) so you
+can run multiple isolated browser sessions in parallel — see [AGENTS.md](./AGENTS.md)
+for full params/returns of every tool.
+
+**Sessions**
+
+| Tool | What it does |
+|------|--------------|
+| `session_create` | Create an isolated session (own profile/driver) |
+| `session_list` | List active sessions |
+| `session_close` | Close a session and free its Chromium process |
+
+**Core browsing**
+
 | Tool | What it does |
 |------|--------------|
 | `browser_navigate` | Navigate to URL (anti-bot stealth) |
@@ -65,7 +79,54 @@ npx @modelcontextprotocol/inspector
 | `browser_get_html` | Get page HTML |
 | `browser_get_url` | Get current URL |
 | `browser_get_download` | Wait and get download |
-| `browser_close` | Close browser |
+| `browser_close` | Close browser session |
+
+**Interaction**
+
+| Tool | What it does |
+|------|--------------|
+| `browser_go_back` / `browser_go_forward` | Navigate browser history |
+| `browser_reload` | Reload the page |
+| `browser_press_key` | Press a keyboard key |
+| `browser_select_option` | Select a dropdown option |
+| `browser_upload_file` | Upload a file to an input |
+| `browser_hover` | Hover over an element |
+| `browser_exists` | Cheap existence check (no wait) |
+| `browser_get_attribute` | Read an element attribute |
+| `browser_new_tab` / `browser_switch_tab` / `browser_list_tabs` | Multi-tab control |
+
+**Extraction**
+
+| Tool | What it does |
+|------|--------------|
+| `browser_extract_table` | Parse a `<table>` into JSON rows |
+| `browser_extract_links` | Extract `{text, href}` for links |
+| `browser_extract_metadata` | Extract Open Graph / JSON-LD / meta tags |
+| `browser_extract_by_xpath` | Extract text via XPath |
+
+**Anti-detection**
+
+| Tool | What it does |
+|------|--------------|
+| `browser_detect_challenge` | Detect Cloudflare/anti-bot blocks |
+| `browser_get_network_requests` | Inspect recent XHR/fetch requests |
+| `browser_set_user_agent` | Override user agent (best-effort) |
+| `browser_google_get` | Navigate simulating a Google referrer |
+
+**Cookies & profile**
+
+| Tool | What it does |
+|------|--------------|
+| `browser_get_cookies` / `browser_set_cookies` / `browser_clear_cookies` | Manage cookies |
+| `browser_export_profile` / `browser_import_profile` | Save/restore a login profile outside the container |
+
+**Direct HTTP & debug**
+
+| Tool | What it does |
+|------|--------------|
+| `http_get` | Plain HTTP GET, no browser (fast when JS isn't needed) |
+| `browser_get_console_logs` | Read console logs (best-effort) |
+| `browser_pdf_export` | Export page as PDF (best-effort) |
 
 ---
 
@@ -111,8 +172,8 @@ browser_get_all_text("table tr td")
 │                 ▼                      │
 │  ┌─────────────────────────────────┐  │
 │  │  Chromium 148 + Botasaurus      │  │
-│  │  • reuse_driver=True            │  │
-│  │  • Profile: hermes (cookies)    │  │
+│  │  • Up to MAX_SESSIONS drivers   │  │
+│  │  • 1 profile per session        │  │
 │  │  • block_images=True            │  │
 │  └─────────────────────────────────┘  │
 │                                         │
@@ -132,6 +193,7 @@ browser_get_all_text("table tr td")
 | `ENABLE_VNC` | `false` | Enable VNC to see browser live |
 | `PORT` | `5846` | REST API port |
 | `TZ` | `America/Sao_Paulo` | Timezone |
+| `MAX_SESSIONS` | `4` | Max concurrent browser sessions (each is a full Chromium process) |
 
 **Enable VNC** (watch browser in real-time):
 ```bash

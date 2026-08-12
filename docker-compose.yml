@@ -1,5 +1,5 @@
 services:
-  scraper:
+  botasaurus-mcp:
     build:
       context: .
       dockerfile: ./Dockerfile
@@ -19,6 +19,7 @@ services:
       - PORT=5846
       - DISPLAY=:99
       - ENABLE_VNC=${ENABLE_VNC:-false}
+      - MAX_SESSIONS=${MAX_SESSIONS:-4}
     ports:
       # API
       - "5846:5846"
