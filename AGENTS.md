@@ -61,7 +61,7 @@ Single-file architecture. Key sections:
 
 5. **Main entry** (lines ~194-199)
    - Starts botasaurus-server on port 5846 (background thread)
-   - Starts FastMCP SSE server on port 1405 (main thread)
+   - Starts FastMCP StreamableHTTP server on port 1405 (main thread)
 
 ## Stack
 
@@ -83,7 +83,7 @@ docker compose logs -f
 
 # Test MCP connection
 npx @modelcontextprotocol/inspector
-# Connect to: http://localhost:1405/sse
+# Connect to: http://localhost:1405/mcp
 ```
 
 ## Environment Variables
@@ -190,6 +190,6 @@ See `requirements.txt`:
 Container runs on `dokploy-network` (Docker network for Dokploy deployment).
 
 Ports exposed:
-- `1405` — MCP SSE
+- `1405` — MCP StreamableHTTP
 - `5846` — REST API + Web UI
 - `6080` — noVNC (optional, when `ENABLE_VNC=true`)

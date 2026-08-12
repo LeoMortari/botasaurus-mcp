@@ -205,5 +205,5 @@ if __name__ == "__main__":
     t = threading.Thread(target=start_backend, daemon=True)
     t.start()
 
-    print("--- MCP SSE server starting on port 1405 ---")
-    mcp.run(transport="sse")
+    print("--- MCP StreamableHTTP server starting on port 1405 ---")
+    mcp.run(transport="streamable-http")

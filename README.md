@@ -42,7 +42,7 @@ docker compose logs -f
 
 # 3. Test with MCP Inspector
 npx @modelcontextprotocol/inspector
-# Connect to: http://localhost:1405/sse
+# Connect to: http://localhost:1405/mcp
 ```
 
 **Done!** Now any MCP agent can control the browser.
@@ -143,15 +143,14 @@ ENABLE_VNC=true docker compose up -d
 
 ## 🔌 Integration
 
-### MCP SSE (recommended)
+### MCP StreamableHTTP (recommended)
 
 Connect any MCP agent:
 
 ```yaml
 mcp_servers:
   botasaurus:
-    url: http://localhost:1405/sse
-    transport: sse
+    url: http://localhost:1405/mcp
 ```
 
 ### REST API (debug)
